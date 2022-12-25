@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="20086" systemVersion="21G115" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Ejecucion" representedClassName="Ejecucion" syncable="YES" codeGenerationType="class">
+        <attribute name="al" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="ba" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="ca" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="descripcion" optional="YES" attributeType="String"/>
+        <attribute name="estado" optional="YES" attributeType="String"/>
+        <attribute name="fecha" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="k" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="mg" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="nombre" optional="YES" attributeType="String"/>
+        <attribute name="resultado" optional="YES" attributeType="String"/>
+        <attribute name="ri" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <relationship name="ejecucionusuario" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Usuario" inverseName="usuarioejecucion" inverseEntity="Usuario"/>
+    </entity>
+    <entity name="Usuario" representedClassName="Usuario" syncable="YES" codeGenerationType="class">
+        <attribute name="correo" optional="YES" attributeType="String"/>
+        <attribute name="nombre" optional="YES" attributeType="String"/>
+        <attribute name="password" optional="YES" attributeType="String"/>
+        <relationship name="usuarioejecucion" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Ejecucion" inverseName="ejecucionusuario" inverseEntity="Ejecucion"/>
+    </entity>
+    <elements>
+        <element name="Usuario" positionX="340.3736572265625" positionY="201.3455810546875" width="128" height="89"/>
+        <element name="Ejecucion" positionX="-54" positionY="-9" width="128" height="209"/>
+    </elements>
+</model>
