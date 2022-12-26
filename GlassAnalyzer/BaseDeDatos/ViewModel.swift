@@ -42,7 +42,6 @@ class ViewModel: ObservableObject {
         nuevoUsuario.correo = correo
         nuevoUsuario.password = password
         guardarDatos()
-        
     }
     
     func deleteUsuario(indexSet: IndexSet) {
@@ -70,6 +69,14 @@ class ViewModel: ObservableObject {
     
     func deleteEjecucion(ejecucion: Ejecucion){
         gestorCoreData.contexto.delete(ejecucion)
+        guardarDatos()
+    }
+    func modificarNombreUsuario(usuario: Usuario, nombreUsuario: String){
+        usuario.nombre = nombreUsuario
+        guardarDatos()
+    }
+    func modificarCorreoUsuario(usuario: Usuario, correo: String){
+        usuario.correo = correo
         guardarDatos()
     }
 }

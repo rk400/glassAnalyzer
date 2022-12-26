@@ -225,13 +225,7 @@ struct RegistroView: View {
                     .frame(width: 350, height: 450, alignment: .center)
                     .cornerRadius(30)
                     .offset(y: -30)
-            
-                
-
-            
             }
-            
-          
     }
     func usuarioExiste(usuarioaux: String) -> Bool {
         for usuario in vm.usuarioArray{

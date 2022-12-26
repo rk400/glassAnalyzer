@@ -22,14 +22,14 @@ struct MainView: View {
                 .tag(0)
             FormularioView()
                 .tabItem{
-                    Image(systemName: "list.bullet.clipboard")
+                    Image(systemName: "list.bullet.indent")
                     Text("Formulario")
                 }
                 .tag(1)
-            PerfilView(sesionIniciada: $sesionIniciada, usuario: usuario.nombre!, correo: usuario.correo!)
+            PerfilView(sesionIniciada: $sesionIniciada, user: usuario, usuario: usuario.nombre!, usuarioNo: usuario.nombre!, correo: usuario.correo!, correoNo: usuario.correo!)
                 .tabItem{
                     Image(systemName: "person")
-                    Text("Historial")
+                    Text("Perfil")
                 }
                 .tag(2)
         }
