@@ -11,7 +11,8 @@ import AlertToast
 struct FormularioView: View {
     @Environment(\.presentationMode) var modoPresentacion
     @EnvironmentObject var vm: ViewModel
-    @State var usuario:Usuario = Usuario()
+    @Binding var usuario:Usuario
+    @Binding var sesionIniciada:Bool
     @State var nombreCaso:String = ""
     @State var RI:Double = 0
     @State var Mg:Double = 0
@@ -28,6 +29,8 @@ struct FormularioView: View {
     @State var showingK = false
     @State var showingCa = false
     @State var showingBa = false
+    @State var showResult = false
+    @State var cancelar:Bool = false
     let estados = ["ABIERTO", "CERRADO"]
     let resultados = ["Flotado edificio", "No flotado edificio", "Faro vehiculo", "Vajilla", "Flotado vehiculo", "No flotado vehiculo", "Recipiente"]
     
@@ -39,7 +42,6 @@ struct FormularioView: View {
         formatter.maximumFractionDigits = 4
         return formatter
     }
-    
     
     var body: some View {
         NavigationView{
@@ -226,8 +228,19 @@ struct FormularioView: View {
                 }
                 Section{
                     HStack{
+                        VStack{
                         Button(){
-                            
+                            nombreCaso = ""
+                            descripcion = ""
+                            resultado = ""
+                            estadoCaso = ""
+                            Al = 0
+                            Ba = 0
+                            Ca = 0
+                            K = 0
+                            Mg = 0
+                            RI = 0
+                            //cancelar = true
                         }label: {
                             Text("Cancelar")
                                 .fontWeight(.bold)
@@ -235,18 +248,26 @@ struct FormularioView: View {
                                 .foregroundColor(.white)
                                 .background(Color.init(red: 1, green: 0.48, blue: 0.48))
                                 .cornerRadius(88)
+                        }//.fullScreenCover(isPresented: $cancelar) {
+                           // MainView(sesionIniciada: $sesionIniciada, usuario: $usuario).environmentObject(vm)
+                        //}
                         }
                         Spacer().frame(width: 60)
+                        VStack{
                         Button(){
-                            ResultadoView()
-                        }label: {
-                            Text("Procesar \n    datos")
+                            vm.addEjecucion(usuario: $usuario.wrappedValue, nombre: $nombreCaso.wrappedValue, fecha: Date.now, descripcion: $descripcion.wrappedValue, resultado: $resultado.wrappedValue, estado: $estadoCaso.wrappedValue, al: $Al.wrappedValue, ba: $Ba.wrappedValue, ca: $Ca.wrappedValue, k: $K.wrappedValue, mg: $Mg.wrappedValue, ri: $RI.wrappedValue)
+                            showResult = true
+                        } label: {
+                            Text("Procesar \n   datos")
                                 .fontWeight(.bold)
                                 .fixedSize(horizontal: true, vertical: true)
                                 .frame(width: 120, height: 50, alignment: .center)
                                 .foregroundColor(.white)
                                 .background(Color.init(red: 0.35, green: 0.37, blue: 0.58))
                                 .cornerRadius(88)
+                        }.fullScreenCover(isPresented: $showResult) {
+                            ResultadoView().environmentObject(vm)
+                        }
                         }
                     }
                 }.listRowBackground(Color.clear)

@@ -11,7 +11,7 @@ struct MainView: View {
     @EnvironmentObject var vm: ViewModel
     @State var seleccion: Int = 0
     @Binding var sesionIniciada: Bool
-    var usuario: Usuario
+    @Binding var usuario: Usuario
     var body: some View {
         TabView(selection: $seleccion){
             HistorialView().environmentObject(vm)
@@ -20,7 +20,7 @@ struct MainView: View {
                     Text("Historial")
                 }
                 .tag(0)
-            FormularioView()
+            FormularioView(usuario: $usuario, sesionIniciada: $sesionIniciada)
                 .tabItem{
                     Image(systemName: "list.bullet.indent")
                     Text("Formulario")

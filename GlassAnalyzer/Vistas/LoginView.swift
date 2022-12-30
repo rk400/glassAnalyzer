@@ -72,7 +72,7 @@ struct LoginView: View {
                             
                         
                     }.fullScreenCover(isPresented: $sesionIniciada) {
-                        MainView(sesionIniciada: $sesionIniciada, usuario: usuarioSesion).environmentObject(vm)
+                        MainView(sesionIniciada: $sesionIniciada, usuario: $usuarioSesion).environmentObject(vm)
                     }
                     .font(.custom("Inter", size: 14))
                     .fixedSize(horizontal: true, vertical: true)
