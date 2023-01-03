@@ -2,19 +2,29 @@ import SwiftUI
 import Charts
 import UIKit
 import AlertToast
+import CoreData
+
 
 
 struct Bar: UIViewRepresentable {
+    func updateUIView(_ uiView: BarChartView, context: Context) {
+    }
+    
+    let resultados = ["", "Ri", "Mg", "Al", "K", "Ca", "Ba"]
     var entries : [BarChartDataEntry]
+    var chart: BarChartView!
+    weak var axisFormatDelegate: IAxisValueFormatter?
     func makeUIView(context: Context) -> BarChartView {
         let chart = BarChartView()
+        chart.xAxis.valueFormatter = IndexAxisValueFormatter(values: resultados)
         chart.data = addData()
+        chart.noDataText = "No hay datos."
+        chart.xAxis.drawGridLinesEnabled = false
+        chart.leftAxis.drawAxisLineEnabled = false
         return chart
     }
     
-    func updateUIView(_ uiView: BarChartView, context: Context) {
-        
-    }
+    
     
     func addData() -> BarChartData {
         let data = BarChartData()
@@ -25,32 +35,20 @@ struct Bar: UIViewRepresentable {
     }
     
     
-    
     typealias UIViewType = BarChartView
 }
-
-struct CountryItem {
-    let index: Int
-    let country: String
-    let birthRate: Double
-    
-    func transformToBarChartDataEntry() -> BarChartDataEntry {
-        let entry = BarChartDataEntry(x: Double(index), y: birthRate)
-        return entry
-    }
-}
-
 
 
 
 struct ResultadoView: View {
+    @EnvironmentObject var vm: ViewModel
     var values = ["Abierto", "Cerrado"]
     @State private var showToast = false
     @State private var seleccion = "Abierto"
     var body: some View {
         VStack{
             VStack{
-                Text("Nombre Experimento")
+                Text(vm.ejecucionArray.last?.nombre ?? "Nombre Experimento")
                     .padding(.bottom)
                 
                 Image("VidrioNoFlotadoEdificio")
@@ -58,7 +56,7 @@ struct ResultadoView: View {
                     .frame(width: 150, height: 150)
                 
                 
-                Text("Nombre resultado")
+                Text(vm.ejecucionArray.last?.resultado ?? "Nombre resultado")
                     .padding(.init(top: 25, leading: 50, bottom: 25, trailing: 50))
                     .border(Color.black, width: 1)
                     .background(Color.white)
@@ -85,12 +83,13 @@ struct ResultadoView: View {
                     showToast.toggle()
                 }.popover(isPresented: $showToast) {
                     Bar(entries: [
-                        BarChartDataEntry(x: 1, y: 2),
-                        BarChartDataEntry(x: 2, y: 5),
-                        BarChartDataEntry(x: 3, y: 7),
-                        BarChartDataEntry(x: 4, y: 4),
-                        BarChartDataEntry(x: 4, y: 5)
-                    ])
+                        BarChartDataEntry(x: 1, y: vm.ejecucionArray.last?.ri ?? 5.5),
+                        BarChartDataEntry(x: 2, y: vm.ejecucionArray.last?.mg ?? 7),
+                        BarChartDataEntry(x: 3, y: vm.ejecucionArray.last?.al ?? 3),
+                        BarChartDataEntry(x: 4, y: vm.ejecucionArray.last?.k ?? 4),
+                        BarChartDataEntry(x: 5, y: vm.ejecucionArray.last?.ca ?? 8),
+                        BarChartDataEntry(x: 6, y: vm.ejecucionArray.last?.ba ?? 3)
+                    ]).frame(width: 400, height: 500)
                 }
                 
             
@@ -105,13 +104,3 @@ struct ResultadoView: View {
 }
 }
 
-struct ResultadoView_Previews: PreviewProvider {
-    static var previews: some View {
-        Bar(entries: [
-            BarChartDataEntry(x: 1, y: 2),
-            BarChartDataEntry(x: 2, y: 5),
-            BarChartDataEntry(x: 3, y: 7),
-            BarChartDataEntry(x: 4, y: 4)
-        ])
-    }
-}
