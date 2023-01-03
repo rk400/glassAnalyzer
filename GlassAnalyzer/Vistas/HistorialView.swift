@@ -11,8 +11,11 @@ import SwiftUI
 struct BusquedaView: View {
     @Binding var text: String
     var body: some View {
+        
         HStack{
             TextField("Buscar...", text: $text)
+                .disableAutocorrection(true)
+                .textInputAutocapitalization(.never)
                 .padding()
                 .frame(width: 250, height: 30, alignment: .center)
                 .background(.gray.opacity(0.3))
@@ -28,22 +31,21 @@ struct BusquedaView: View {
 }
 
 struct VistaEjecucion: View {
-    var ejecucionCurrent : Ejecucion
-    let formatofecha = DateFormatter()
+    @State var ejecucionCurrent : Ejecucion
     var body: some View {
         HStack{
-            Image("Vajilla")
+            Image(ejecucionCurrent.resultado ?? "logo")
                 .resizable()
                 .frame(width: 40, height: 40)
                 .clipShape(Circle())
                 .overlay(Circle().stroke(Color.white, lineWidth: 2))
                 .shadow(color: Color.red, radius: 1)
             VStack(alignment: .leading){
-                Text(ejecucionCurrent.nombre ?? "Experimento")
+                Text(ejecucionCurrent.nombre ?? "caso")
                     .font(.subheadline)
                     .fontWeight(.bold)
-                    .foregroundColor(ejecucionCurrent.estado == "cerrado" ? Color("RojoLetras") : Color("AzulLetras"))
-                Text(formatofecha.string(from: ejecucionCurrent.fecha!))
+                    .foregroundColor(ejecucionCurrent.estado == "CERRADO" ? Color("RojoLetras") : Color("AzulLetras"))
+                Text(ejecucionCurrent.fecha!, style: .date)
                     .font(.caption2)
                     .fontWeight(.medium)
                 Text(ejecucionCurrent.resultado!)
@@ -60,9 +62,12 @@ struct VistaEjecucion: View {
 }
 
 struct HistorialView: View {
-    @EnvironmentObject var resultadoVM: ViewModel
+    @EnvironmentObject var vm: ViewModel
     @State var query: String = ""
     @State var soloAbiertos:Bool = false
+    @State var ejecucionesActuales = [Ejecucion]()
+    @State var contador: Int = 0
+    @State var usuario: Usuario
     var body: some View {
         NavigationView{
             VStack{
@@ -71,10 +76,12 @@ struct HistorialView: View {
                     Toggle(isOn: $soloAbiertos){
                         Text("Mostrar solo los casos abiertos")
                     }
-                    ForEach(resultadoVM.ejecucionArray){ejecucion in
-                        if (!soloAbiertos || (ejecucion.estado == "Abierto")) && (ejecucion.nombre!.contains(query) || query.isEmpty ) {
-                            NavigationLink(destination: ResultadoView()){
-                                VistaEjecucion(ejecucionCurrent: ejecucion)
+                    if let ejecucionesActuales = usuario.usuarioejecucion?.allObjects as? [Ejecucion]{
+                        ForEach(ejecucionesActuales){ejecucion in
+                            if (!soloAbiertos || (ejecucion.estado == "ABIERTO")) && (ejecucion.nombre!.contains(query) || query.isEmpty ) {
+                                NavigationLink(destination: ResultadoView()){
+                                    VistaEjecucion(ejecucionCurrent: ejecucion)
+                                }
                             }
                         }
                     }
@@ -93,11 +100,14 @@ struct HistorialView: View {
        
             
     }
-    
-}
-
-struct HistorialView_Previews: PreviewProvider {
-    static var previews: some View {
-        HistorialView()
+    func buscarEjecucion() -> Void {
+        
+        for ejecucion in vm.ejecucionArray{
+            if ejecucion.ejecucionusuario == usuario{
+                ejecucionesActuales[contador] = ejecucion
+                contador+=1
+            }
+        }
+        contador = 0
     }
 }
