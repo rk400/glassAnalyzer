@@ -14,7 +14,7 @@ struct MainView: View {
     @Binding var usuario: Usuario
     var body: some View {
         TabView(selection: $seleccion){
-            HistorialView().environmentObject(vm)
+            HistorialView(usuario: usuario).environmentObject(vm)
                 .tabItem{
                     Image(systemName: "bookmark")
                     Text("Historial")
