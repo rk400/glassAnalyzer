@@ -31,6 +31,8 @@ struct FormularioView: View {
     @State var showingBa = false
     @State var showResult = false
     @State var cancelar:Bool = false
+    @State var ejecucionesActuales:[Ejecucion] = [Ejecucion]()
+    @State var ejecucionActual:Ejecucion = ejecucionesActuales().last
     let estados = ["ABIERTO", "CERRADO"]
     let resultados = ["Flotado edificio", "No flotado edificio", "Faro vehiculo", "Vajilla", "Flotado vehiculo", "No flotado vehiculo", "Recipiente"]
     
@@ -45,12 +47,12 @@ struct FormularioView: View {
     
     var body: some View {
         NavigationView{
-        VStack{
-            Form(){
-                Section(header: Text("Nombre del caso")){
-                    TextField("Escriba nombre de caso...", text: $nombreCaso)
-                }
-                Section(header: Text("Datos")){
+            VStack{
+                Form(){
+                    Section(header: Text("Nombre del caso")){
+                        TextField("Escriba nombre de caso...", text: $nombreCaso)
+                    }
+                    Section(header: Text("Datos")){
                         HStack{
                             Text("RI:").frame(width: 29,alignment: .leading)
                             Slider(value: $RI,
@@ -70,11 +72,11 @@ struct FormularioView: View {
                             Button(){
                                 showingRI = true
                             }label: {
-                            Image(systemName: "questionmark.circle.fill")
-                                .resizable()
-                                .foregroundColor(Color.gray)
-                                .opacity(0.5)
-                                .frame(width: 15, height: 15, alignment: .leading)
+                                Image(systemName: "questionmark.circle.fill")
+                                    .resizable()
+                                    .foregroundColor(Color.gray)
+                                    .opacity(0.5)
+                                    .frame(width: 15, height: 15, alignment: .leading)
                             }
                         }
                         HStack{
@@ -95,11 +97,11 @@ struct FormularioView: View {
                             Button(){
                                 showingMg = true
                             }label: {
-                            Image(systemName: "questionmark.circle.fill")
-                                .resizable()
-                                .foregroundColor(Color.gray)
-                                .opacity(0.5)
-                                .frame(width: 15, height: 15, alignment: .leading)
+                                Image(systemName: "questionmark.circle.fill")
+                                    .resizable()
+                                    .foregroundColor(Color.gray)
+                                    .opacity(0.5)
+                                    .frame(width: 15, height: 15, alignment: .leading)
                             }
                         }
                         HStack{
@@ -121,11 +123,11 @@ struct FormularioView: View {
                             Button(){
                                 showingAl = true
                             }label: {
-                            Image(systemName: "questionmark.circle.fill")
-                                .resizable()
-                                .foregroundColor(Color.gray)
-                                .opacity(0.5)
-                                .frame(width: 15, height: 15, alignment: .leading)
+                                Image(systemName: "questionmark.circle.fill")
+                                    .resizable()
+                                    .foregroundColor(Color.gray)
+                                    .opacity(0.5)
+                                    .frame(width: 15, height: 15, alignment: .leading)
                             }
                         }
                         HStack{
@@ -147,11 +149,11 @@ struct FormularioView: View {
                             Button(){
                                 showingK = true
                             }label: {
-                            Image(systemName: "questionmark.circle.fill")
-                                .resizable()
-                                .foregroundColor(Color.gray)
-                                .opacity(0.5)
-                                .frame(width: 15, height: 15, alignment: .leading)
+                                Image(systemName: "questionmark.circle.fill")
+                                    .resizable()
+                                    .foregroundColor(Color.gray)
+                                    .opacity(0.5)
+                                    .frame(width: 15, height: 15, alignment: .leading)
                             }
                         }
                         HStack{
@@ -173,11 +175,11 @@ struct FormularioView: View {
                             Button(){
                                 showingCa = true
                             }label: {
-                            Image(systemName: "questionmark.circle.fill")
-                                .resizable()
-                                .foregroundColor(Color.gray)
-                                .opacity(0.5)
-                                .frame(width: 15, height: 15, alignment: .leading)
+                                Image(systemName: "questionmark.circle.fill")
+                                    .resizable()
+                                    .foregroundColor(Color.gray)
+                                    .opacity(0.5)
+                                    .frame(width: 15, height: 15, alignment: .leading)
                             }
                         }
                         HStack{
@@ -199,80 +201,77 @@ struct FormularioView: View {
                             Button(){
                                 showingBa = true
                             }label: {
-                            Image(systemName: "questionmark.circle.fill")
-                                .resizable()
-                                .foregroundColor(Color.gray)
-                                .opacity(0.5)
-                                .frame(width: 15, height: 15, alignment: .leading)
+                                Image(systemName: "questionmark.circle.fill")
+                                    .resizable()
+                                    .foregroundColor(Color.gray)
+                                    .opacity(0.5)
+                                    .frame(width: 15, height: 15, alignment: .leading)
                             }
                         }
-                }
-                Section(header: Text("Estado del caso")){
-                    withAnimation{
-                        Picker("Seleccionar estado actual", selection: $estadoCaso){
-                            ForEach(estados, id:\.self){
+                    }
+                    Section(header: Text("Estado del caso")){
+                        withAnimation{
+                            Picker("Seleccionar estado actual", selection: $estadoCaso){
+                                ForEach(estados, id:\.self){
+                                    Text($0)
+                                }
+                            }.pickerStyle(SegmentedPickerStyle())
+                        }
+                    }
+                    Section(header: Text("Seleccionar resultado")){
+                        Picker("Seleccionar resultado", selection: $resultado){
+                            ForEach(resultados, id:\.self){
                                 Text($0)
                             }
-                        }.pickerStyle(SegmentedPickerStyle())
+                        }.pickerStyle(MenuPickerStyle())
+                    }
+                    Section(header: Text("Descripción (opcional)")){
+                        TextField("Describa el experimento...", text: $descripcion)
+                    }
+                }.navigationTitle("Formulario")
+                HStack{
+                    Button(){
+                        nombreCaso = ""
+                        descripcion = ""
+                        resultado = ""
+                        estadoCaso = ""
+                        Al = 0
+                        Ba = 0
+                        Ca = 0
+                        K = 0
+                        Mg = 0
+                        RI = 0
+                        cancelar = true
+                    }label: {
+                        Text("Cancelar")
+                            .fontWeight(.bold)
+                            .frame(width: 120, height: 50, alignment: .center)
+                            .foregroundColor(.white)
+                            .background(Color.init(red: 1, green: 0.48, blue: 0.48))
+                            .cornerRadius(88)
+                    }.fullScreenCover(isPresented: $cancelar) {
+                        MainView(sesionIniciada: $sesionIniciada, usuario: $usuario).environmentObject(vm)
+                    }
+                    
+                    Spacer().frame(width: 60)
+                    
+                    Button(){
+                        vm.addEjecucion(usuario: $usuario.wrappedValue, nombre: $nombreCaso.wrappedValue, fecha: Date.now, descripcion: $descripcion.wrappedValue, resultado: $resultado.wrappedValue, estado: $estadoCaso.wrappedValue, al: $Al.wrappedValue, ba: $Ba.wrappedValue, ca: $Ca.wrappedValue, k: $K.wrappedValue, mg: $Mg.wrappedValue, ri: $RI.wrappedValue)
+                        showResult = true
+                    } label: {
+                        Text("Procesar \n   datos")
+                            .fontWeight(.bold)
+                            .fixedSize(horizontal: true, vertical: true)
+                            .frame(width: 120, height: 50, alignment: .center)
+                            .foregroundColor(.white)
+                            .background(Color.init(red: 0.35, green: 0.37, blue: 0.58))
+                            .cornerRadius(88)
+                    }.fullScreenCover(isPresented: $cancelar) {
+                        VistaEjecucion(ejecucionCurrent: ejecucionActual).environmentObject(vm)
                     }
                 }
-                Section(header: Text("Seleccionar resultado")){
-                    Picker("Seleccionar resultado", selection: $resultado){
-                        ForEach(resultados, id:\.self){
-                            Text($0)
-                        }
-                    }.pickerStyle(MenuPickerStyle())
-                }
-                Section(header: Text("Descripción (opcional)")){
-                    TextField("Describa el experimento...", text: $descripcion)
-                }
-                Section{
-                    HStack{
-                        VStack{
-                        Button(){
-                            nombreCaso = ""
-                            descripcion = ""
-                            resultado = ""
-                            estadoCaso = ""
-                            Al = 0
-                            Ba = 0
-                            Ca = 0
-                            K = 0
-                            Mg = 0
-                            RI = 0
-                            //cancelar = true
-                        }label: {
-                            Text("Cancelar")
-                                .fontWeight(.bold)
-                                .frame(width: 120, height: 50, alignment: .center)
-                                .foregroundColor(.white)
-                                .background(Color.init(red: 1, green: 0.48, blue: 0.48))
-                                .cornerRadius(88)
-                        }//.fullScreenCover(isPresented: $cancelar) {
-                           // MainView(sesionIniciada: $sesionIniciada, usuario: $usuario).environmentObject(vm)
-                        //}
-                        }
-                        Spacer().frame(width: 60)
-                        VStack{
-                        Button(){
-                            vm.addEjecucion(usuario: $usuario.wrappedValue, nombre: $nombreCaso.wrappedValue, fecha: Date.now, descripcion: $descripcion.wrappedValue, resultado: $resultado.wrappedValue, estado: $estadoCaso.wrappedValue, al: $Al.wrappedValue, ba: $Ba.wrappedValue, ca: $Ca.wrappedValue, k: $K.wrappedValue, mg: $Mg.wrappedValue, ri: $RI.wrappedValue)
-                            showResult = true
-                        } label: {
-                            Text("Procesar \n   datos")
-                                .fontWeight(.bold)
-                                .fixedSize(horizontal: true, vertical: true)
-                                .frame(width: 120, height: 50, alignment: .center)
-                                .foregroundColor(.white)
-                                .background(Color.init(red: 0.35, green: 0.37, blue: 0.58))
-                                .cornerRadius(88)
-                        }.fullScreenCover(isPresented: $showResult) {
-                            ResultadoView().environmentObject(vm)
-                        }
-                        }
-                    }
-                }.listRowBackground(Color.clear)
-            }
-        }.navigationTitle("Formulario")
+                Spacer()
+            }.background(Color.init(red: 0.95, green: 0.95, blue: 0.97, opacity: 1))
         }
         .toast(isPresenting: $showingRI) {
             AlertToast(type: .image("RI", Color.black), title: "índice de Refracción")
@@ -293,6 +292,7 @@ struct FormularioView: View {
             AlertToast(type: .image("barium", Color.black), title: "Bario")
         }
     }
+    
 }
 
 extension Double {
