@@ -105,7 +105,7 @@ struct RegistroView: View {
                         HStack{
                             Text("Contraseña:").foregroundColor(.black).padding(.trailing, 1)
                             Spacer().frame(width: 5)
-                            TextField("Contraseña...",text: $passUsuario)
+                            SecureField("Contraseña...",text: $passUsuario)
                                 .autocapitalization(UITextAutocapitalizationType.none)
                                 .padding(.leading,10)
                                 .background(Color.white)
@@ -134,14 +134,12 @@ struct RegistroView: View {
                             .offset(x: 30, y: -5)
                             .opacity(showingPass)
                        
-        
-                    
                     HStack{
                         VStack{
                             Text("Confirmar contraseña:").foregroundColor(.black).padding(.trailing,1)
                         }.frame(height: 40)
                         Spacer().frame(width: 10)
-                        TextField("Contraseña...",text: $cpassUsuario)
+                        SecureField("Contraseña...",text: $cpassUsuario)
                             .autocapitalization(UITextAutocapitalizationType.none)
                             .padding(.leading,10)
                             .background(Color.white)

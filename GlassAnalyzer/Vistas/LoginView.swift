@@ -45,7 +45,7 @@ struct LoginView: View {
                     HStack{
                         Text("Contraseña:").foregroundColor(.black).padding()
                         Spacer().frame(width: 5)
-                        TextField("Contraseña...",text: $passUsuario)
+                        SecureField("Contraseña...",text: $passUsuario)
                             .autocapitalization(UITextAutocapitalizationType.none)
                             .padding(.leading,10)
                             .background(Color.white)
