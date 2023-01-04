@@ -79,7 +79,7 @@ struct HistorialView: View {
                     if let ejecucionesActuales = usuario.usuarioejecucion?.allObjects as? [Ejecucion]{
                         ForEach(ejecucionesActuales){ejecucion in
                             if (!soloAbiertos || (ejecucion.estado == "ABIERTO")) && (ejecucion.nombre!.contains(query) || query.isEmpty ) {
-                                NavigationLink(destination: ResultadoView()){
+                                NavigationLink(destination: ResultadoView().environmentObject(vm)){
                                     VistaEjecucion(ejecucionCurrent: ejecucion)
                                 }
                             }
