@@ -254,20 +254,25 @@ struct FormularioView: View {
                     
                     Spacer().frame(width: 60)
                     
-                    NavigationLink (destination: ResultadoView().environmentObject(vm)) {
+                    
                         Button(){
-                            vm.addEjecucion(usuario: $usuario.wrappedValue, nombre: nombreCaso.isEmpty ? "DefaultCase" : $nombreCaso.wrappedValue, fecha: Date.now, descripcion: descripcion.isEmpty ? "Sin detalles añadidos" : $descripcion.wrappedValue, resultado: $resultado.wrappedValue, estado: estadoCaso.isEmpty ? "CERRADO" : $estadoCaso.wrappedValue, al: Al.isNaN ? 0 : $Al.wrappedValue, ba: Ba.isNaN ? 0 : $Ba.wrappedValue, ca: Ca.isNaN ? 0 : $Ca.wrappedValue, k: K.isNaN ? 0 : $K.wrappedValue, mg: Mg.isNaN ? 0 : $Mg.wrappedValue, ri: RI.isNaN ? 0 : $RI.wrappedValue)
-                            showResult = true
+                            
                         } label: {
-                            Text("Procesar \n  datos")
+                            NavigationLink (destination: ResultadoView().environmentObject(vm)){
+                            Text("Procesar\ndatos")
                                 .fontWeight(.bold)
                                 .fixedSize(horizontal: true, vertical: true)
                                 .frame(width: 120, height: 50, alignment: .center)
                                 .foregroundColor(.white)
                                 .background(Color.init(red: 0.35, green: 0.37, blue: 0.58))
                                 .cornerRadius(88)
+                                .multilineTextAlignment(.center)
+                            }
+                        }.onDisappear{
+                            
+                        
+                            vm.addEjecucion(usuario: $usuario.wrappedValue, nombre: nombreCaso.isEmpty ? "DefaultCase" : $nombreCaso.wrappedValue, fecha: Date.now, descripcion: descripcion.isEmpty ? "Sin detalles añadidos" : $descripcion.wrappedValue, resultado: resultado.isEmpty ? "Flotado edificio" : $resultado.wrappedValue, estado: estadoCaso.isEmpty ? "CERRADO" : $estadoCaso.wrappedValue, al: Al.isNaN ? 0 : $Al.wrappedValue, ba: Ba.isNaN ? 0 : $Ba.wrappedValue, ca: Ca.isNaN ? 0 : $Ca.wrappedValue, k: K.isNaN ? 0 : $K.wrappedValue, mg: Mg.isNaN ? 0 : $Mg.wrappedValue, ri: RI.isNaN ? 0 : $RI.wrappedValue)
                         }
-                    }
                     
                 }
                 Spacer()

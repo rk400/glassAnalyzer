@@ -54,8 +54,8 @@ struct VistaEjecucion: View {
             }
             //Ejemplo para luego el color de los casos abiertos y cerrados
             Spacer()
-            Text(">")
-                .opacity(0.8)
+            //Text(">")
+            //    .opacity(0.8)
         }
         .background(.white)
     }
@@ -79,7 +79,7 @@ struct HistorialView: View {
                     if let ejecucionesActuales = usuario.usuarioejecucion?.allObjects as? [Ejecucion]{
                         ForEach(ejecucionesActuales){ejecucion in
                             if (!soloAbiertos || (ejecucion.estado == "ABIERTO")) && (ejecucion.nombre!.contains(query) || query.isEmpty ) {
-                                NavigationLink(destination: ResultadoView().environmentObject(vm)){
+                                NavigationLink(destination: ResultadoView()){
                                     VistaEjecucion(ejecucionCurrent: ejecucion)
                                 }
                             }
