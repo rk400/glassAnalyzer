@@ -68,23 +68,23 @@ struct ResultadoView: View {
     var body: some View {
         VStack{
             VStack{
-                Text(vm.ejecucionArray.last?.nombre ?? "Nombre Experimento")
+                Text(nombreCaso)
                     .padding(.bottom)
                 
                 
-                Image(vm.ejecucionArray.last?.resultado ?? "No flotado edificio")
+                Image(resultado)
                     .resizable()
                     .frame(width: 150, height: 150)
                 
                 
-                Text(vm.ejecucionArray.last?.resultado ?? "Nombre resultado")
+                Text(resultado)
                     .padding(.init(top: 25, leading: 50, bottom: 25, trailing: 50))
                     .border(Color.black, width: 1)
                     .background(Color.white)
                     .padding(.init(top: 50, leading: 0, bottom: 0, trailing: 0))
                 
                 
-                Picker("", selection: $vm.ejecucionArray.last!.estado){
+                Picker("", selection: $estadoCaso){
                     ForEach(values, id: \.self){
                         Text($0).background(Color.white)
                     }
@@ -104,12 +104,12 @@ struct ResultadoView: View {
                     showToast.toggle()
                 }.popover(isPresented: $showToast) {
                     Bar(entries: [
-                        BarChartDataEntry(x: 1, y: vm.ejecucionArray.last?.ri ?? 5.5),
-                        BarChartDataEntry(x: 2, y: vm.ejecucionArray.last?.mg ?? 7),
-                        BarChartDataEntry(x: 3, y: vm.ejecucionArray.last?.al ?? 3),
-                        BarChartDataEntry(x: 4, y: vm.ejecucionArray.last?.k ?? 4),
-                        BarChartDataEntry(x: 5, y: vm.ejecucionArray.last?.ca ?? 8),
-                        BarChartDataEntry(x: 6, y: vm.ejecucionArray.last?.ba ?? 3)
+                        BarChartDataEntry(x: 1, y: RI),
+                        BarChartDataEntry(x: 2, y: Mg),
+                        BarChartDataEntry(x: 3, y: Al),
+                        BarChartDataEntry(x: 4, y: K),
+                        BarChartDataEntry(x: 5, y: Ca),
+                        BarChartDataEntry(x: 6, y: Ba)
                     ]).frame(width: 400, height: 500)
                 }
                 
@@ -124,5 +124,3 @@ struct ResultadoView: View {
     }
 }
 }
-
-
