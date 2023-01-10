@@ -43,15 +43,36 @@ struct Bar: UIViewRepresentable {
 struct ResultadoView: View {
     @EnvironmentObject var vm: ViewModel
     var values = ["Abierto", "Cerrado"]
+    
+    @State var nombreCaso:String = ""
+    @State var RI:Double = 0
+    @State var Mg:Double = 0
+    @State var Al:Double = 0
+    @State var K:Double = 0
+    @State var Ca:Double = 0
+    @State var Ba:Double = 0
+    @State var estadoCaso:String = ""
+    @State var resultado:String = ""
+    @State var descripcion:String = ""
+    @State var showingRI = false
+    @State var showingMg = false
+    @State var showingAl = false
+    @State var showingK = false
+    @State var showingCa = false
+    @State var showingBa = false
+    @State var showResult = false
+    @State var cancelar:Bool = false
     @State private var showToast = false
     @State private var seleccion = "Abierto"
+    @State private var Img = ""
     var body: some View {
         VStack{
             VStack{
                 Text(vm.ejecucionArray.last?.nombre ?? "Nombre Experimento")
                     .padding(.bottom)
                 
-                Image("VidrioNoFlotadoEdificio")
+                
+                Image(vm.ejecucionArray.last?.resultado ?? "No flotado edificio")
                     .resizable()
                     .frame(width: 150, height: 150)
                 
@@ -63,7 +84,7 @@ struct ResultadoView: View {
                     .padding(.init(top: 50, leading: 0, bottom: 0, trailing: 0))
                 
                 
-                Picker("", selection: $seleccion){
+                Picker("", selection: $vm.ejecucionArray.last!.estado){
                     ForEach(values, id: \.self){
                         Text($0).background(Color.white)
                     }
@@ -103,4 +124,5 @@ struct ResultadoView: View {
     }
 }
 }
+
 
