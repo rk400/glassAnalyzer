@@ -38,12 +38,16 @@ struct PerfilView: View {
                     .resizable()
                     .frame(width: 200, height: 200)
                 HStack{
-                    Text("Usuario")
+                    Text("Usuario: ")
+                        .font(.custom("Inter-Regular", size: 20))
                     if(edicionUser) {
-                        TextField("Nuevo nombre", text: $usuario)
+                        TextField("Nuevo nombre...", text: $usuario)
+                            .font(.custom("Inter-Regular", size: 20))
                     }else{
                         Text(usuario)
+                            .font(.custom("Inter-Regular", size: 20))
                     }
+                    Spacer()
                     Button{
                         edicionUser.toggle()
                     }label: {
@@ -79,18 +83,20 @@ struct PerfilView: View {
                             .frame(width: 25, height: 25)
                         }
                     }
-                    if(edicionUser){
-                        
-                    }
-                    Spacer()
                 }
                 HStack{
-                    Text("Correo")
+                    Text("Correo: ")
+                        .font(.custom("Inter-Regular", size: 20))
+                    Spacer()
+                        .frame(width: 16)
                     if(edicionMail) {
-                        TextField("Nuevo correo", text: $correo)
+                        TextField("Nuevo correo...", text: $correo)
+                            .font(.custom("Inter-Regular", size: 20))
                     }else{
                         Text(correo)
+                            .font(.custom("Inter-Regular", size: 20))
                     }
+                    Spacer()
                     Button{
                         edicionMail.toggle()
                     }label: {
@@ -129,7 +135,6 @@ struct PerfilView: View {
                             .frame(width: 25, height: 25)
                         }
                     }
-                    Spacer()
                 }
                 Spacer().frame(height: 30)
                 Text(mensajeError)
@@ -137,7 +142,9 @@ struct PerfilView: View {
                     .frame(height: 10)
                     .offset(y: -10)
                 Spacer()
-            }
+            }.offset(y: 30)
+            .padding(.trailing, 20)
+            .padding(.leading, 20)
         }
     func usuarioExiste(usuarioaux: String) -> Bool {
         for usuario in vm.usuarioArray{

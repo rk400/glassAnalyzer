@@ -55,7 +55,7 @@ struct VistaEjecucion: View {
             //Ejemplo para luego el color de los casos abiertos y cerrados
             Spacer()
             //Text(">")
-            //    .opacity(0.8)
+            //.opacity(0.8)
         }
         .background(.white)
     }
@@ -68,6 +68,8 @@ struct HistorialView: View {
     @State var ejecucionesActuales = [Ejecucion]()
     @State var contador: Int = 0
     @State var usuario: Usuario
+    @Binding var sesionIniciada: Bool
+    @State var showResult: Bool = false
     var body: some View {
         NavigationView{
             VStack{
@@ -79,8 +81,16 @@ struct HistorialView: View {
                     if let ejecucionesActuales = usuario.usuarioejecucion?.allObjects as? [Ejecucion]{
                         ForEach(ejecucionesActuales){ejecucion in
                             if (!soloAbiertos || (ejecucion.estado == "ABIERTO")) && (ejecucion.nombre!.contains(query) || query.isEmpty ) {
-                                NavigationLink(destination: ResultadoView()){
-                                    VistaEjecucion(ejecucionCurrent: ejecucion)
+                                Button(){
+                                    showResult.toggle()
+                                }
+                                label:{
+                                NavigationLink(isActive: $showResult){
+                                    ResultadoView(nombreCaso: ejecucion.nombre!, RI: ejecucion.ri , Mg: ejecucion.mg, Al: ejecucion.al, K: ejecucion.k, Ca: ejecucion.ca, Ba: ejecucion.ba, estadoCaso: ejecucion.estado!, resultado: ejecucion.resultado!, descripcion: ejecucion.descripcion ?? "", usuario: $usuario ,sesionIniciada: $sesionIniciada, esNuevo: false, ejecucion: ejecucion, showResult: $showResult).environmentObject(vm)
+                                    }
+                                    label:{
+                                        VistaEjecucion(ejecucionCurrent: ejecucion)
+                                    }
                                 }
                             }
                         }

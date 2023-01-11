@@ -42,8 +42,7 @@ struct Bar: UIViewRepresentable {
 
 struct ResultadoView: View {
     @EnvironmentObject var vm: ViewModel
-    var values = ["Abierto", "Cerrado"]
-    
+    var values = ["ABIERTO", "CERRADO"]
     @State var nombreCaso:String = ""
     @State var RI:Double = 0
     @State var Mg:Double = 0
@@ -54,17 +53,13 @@ struct ResultadoView: View {
     @State var estadoCaso:String = ""
     @State var resultado:String = ""
     @State var descripcion:String = ""
-    @State var showingRI = false
-    @State var showingMg = false
-    @State var showingAl = false
-    @State var showingK = false
-    @State var showingCa = false
-    @State var showingBa = false
-    @State var showResult = false
-    @State var cancelar:Bool = false
+    @Binding var usuario: Usuario
+    @Binding var sesionIniciada: Bool
     @State private var showToast = false
-    @State private var seleccion = "Abierto"
     @State private var Img = ""
+    @State var esNuevo: Bool
+    @State var ejecucion: Ejecucion = Ejecucion()
+    @Binding var showResult: Bool
     var body: some View {
         VStack{
             VStack{
@@ -121,6 +116,16 @@ struct ResultadoView: View {
                 .frame(width: 390, height: 550)
                 .offset(x: 0, y: 150)
         )
-    }
+        }.onAppear(){
+            if(esNuevo){
+                vm.addEjecucion(usuario: $usuario.wrappedValue, nombre: nombreCaso.isEmpty ? "DefaultCase" : $nombreCaso.wrappedValue, fecha: Date.now, descripcion: descripcion.isEmpty ? "Sin detalles añadidos" : $descripcion.wrappedValue, resultado: resultado.isEmpty ? "Flotado edificio" : $resultado.wrappedValue, estado: estadoCaso.isEmpty ? "CERRADO" : $estadoCaso.wrappedValue, al: Al.isNaN ? 0 : $Al.wrappedValue, ba: Ba.isNaN ? 0 : $Ba.wrappedValue, ca: Ca.isNaN ? 0 : $Ca.wrappedValue, k: K.isNaN ? 0 : $K.wrappedValue, mg: Mg.isNaN ? 0 : $Mg.wrappedValue, ri: RI.isNaN ? 0 : $RI.wrappedValue)
+                ejecucion = vm.ejecucionArray.last!
+            }
+        }
+        .onDisappear(){
+            ejecucion.estado = estadoCaso
+            vm.guardarDatos()
+            showResult.toggle()
+        }
 }
 }

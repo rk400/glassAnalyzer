@@ -21,8 +21,8 @@ struct FormularioView: View {
     @State var K:Double = 0
     @State var Ca:Double = 0
     @State var Ba:Double = 0
-    @State var estadoCaso:String = ""
-    @State var resultado:String = ""
+    @State var estadoCaso:String = "ABIERTO"
+    @State var resultado:String = "Flotado edificio"
     @State var descripcion:String = ""
     @State var showingRI = false
     @State var showingMg = false
@@ -254,24 +254,22 @@ struct FormularioView: View {
                     }
                     
                     Spacer().frame(width: 60)
-                    
                     Button(){
+                        showResult.toggle()
                     } label: {
-                        NavigationLink (destination: ResultadoView().environmentObject(vm)){
-                            Text("Procesar\ndatos")
-                                .fontWeight(.bold)
-                                .fixedSize(horizontal: true, vertical: true)
-                                .frame(width: 120, height: 50, alignment: .center)
-                                .foregroundColor(.white)
-                                .background(Color.init(red: 0.35, green: 0.37, blue: 0.58))
-                                .cornerRadius(88)
-                                .multilineTextAlignment(.center)
+                        NavigationLink (isActive: $showResult){
+                                    ResultadoView(nombreCaso: nombreCaso, RI: RI, Mg: Mg, Al: Al, K: K, Ca: Ca, Ba: Ba, estadoCaso: estadoCaso, resultado: resultado, descripcion: descripcion, usuario: $usuario ,sesionIniciada: $sesionIniciada, esNuevo: true, showResult: $showResult).environmentObject(vm)
+                        }label:{
+                                    Text("Procesar\ndatos")
+                                    .fontWeight(.bold)
+                                    .fixedSize(horizontal: true, vertical: true)
+                                    .frame(width: 120, height: 50, alignment: .center)
+                                    .foregroundColor(.white)
+                                    .background(Color.init(red: 0.35, green: 0.37, blue: 0.58))
+                                    .cornerRadius(88)
+                                    .multilineTextAlignment(.center)
                         }
-                    }.onDisappear{
-                        if ($showResult)
-                        vm.addEjecucion(usuario: $usuario.wrappedValue, nombre: nombreCaso.isEmpty ? "DefaultCase" : $nombreCaso.wrappedValue, fecha: Date.now, descripcion: descripcion.isEmpty ? "Sin detalles añadidos" : $descripcion.wrappedValue, resultado: resultado.isEmpty ? "Flotado edificio" : $resultado.wrappedValue, estado: estadoCaso.isEmpty ? "CERRADO" : $estadoCaso.wrappedValue, al: Al.isNaN ? 0 : $Al.wrappedValue, ba: Ba.isNaN ? 0 : $Ba.wrappedValue, ca: Ca.isNaN ? 0 : $Ca.wrappedValue, k: K.isNaN ? 0 : $K.wrappedValue, mg: Mg.isNaN ? 0 : $Mg.wrappedValue, ri: RI.isNaN ? 0 : $RI.wrappedValue)
                     }
-                    
                 }
                 Spacer()
             }.background(Color.init(red: 0.95, green: 0.95, blue: 0.97, opacity: 1))
