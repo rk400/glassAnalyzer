@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		295D318A2970B48F0044483E /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = 295D31892970B48F0044483E /* AlertToast */; };
+		295D318D2970B4C00044483E /* Charts in Frameworks */ = {isa = PBXBuildFile; productRef = 295D318C2970B4C00044483E /* Charts */; };
 		297EA95C294CDEED0006668C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 297EA95B294CDEED0006668C /* Preview Assets.xcassets */; };
 		297EA96C294CDF040006668C /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297EA968294CDF040006668C /* CoreDataManager.swift */; };
 		297EA96D294CDF040006668C /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297EA969294CDF040006668C /* ViewModel.swift */; };
@@ -21,8 +23,6 @@
 		297EA986294CDF120006668C /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297EA97E294CDF120006668C /* MainView.swift */; };
 		297EA989294CDF690006668C /* GlassAnalyzerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297EA987294CDF690006668C /* GlassAnalyzerApp.swift */; };
 		297EA98A294CDF690006668C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 297EA988294CDF690006668C /* Assets.xcassets */; };
-		297EA98D294CE1540006668C /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = 297EA98C294CE1540006668C /* AlertToast */; };
-		297EA990294CE1910006668C /* Charts in Frameworks */ = {isa = PBXBuildFile; productRef = 297EA98F294CE1910006668C /* Charts */; };
 		29C31D1D2958DC9A0078C224 /* PerfilView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29C31D1C2958DC9A0078C224 /* PerfilView.swift */; };
 		29ED77E3294CF42000335EB2 /* GlassAnalyzerData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 29ED77E1294CF42000335EB2 /* GlassAnalyzerData.xcdatamodeld */; };
 /* End PBXBuildFile section */
@@ -52,8 +52,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				297EA98D294CE1540006668C /* AlertToast in Frameworks */,
-				297EA990294CE1910006668C /* Charts in Frameworks */,
+				295D318A2970B48F0044483E /* AlertToast in Frameworks */,
+				295D318D2970B4C00044483E /* Charts in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -148,8 +148,8 @@
 			);
 			name = GlassAnalyzer;
 			packageProductDependencies = (
-				297EA98C294CE1540006668C /* AlertToast */,
-				297EA98F294CE1910006668C /* Charts */,
+				295D31892970B48F0044483E /* AlertToast */,
+				295D318C2970B4C00044483E /* Charts */,
 			);
 			productName = GlassAnalyzer;
 			productReference = 297EA951294CDEEC0006668C /* GlassAnalyzer.app */;
@@ -182,6 +182,8 @@
 			packageReferences = (
 				297EA98B294CE1540006668C /* XCRemoteSwiftPackageReference "AlertToast" */,
 				297EA98E294CE1910006668C /* XCRemoteSwiftPackageReference "Charts" */,
+				295D31882970B48F0044483E /* XCRemoteSwiftPackageReference "AlertToast" */,
+				295D318B2970B4C00044483E /* XCRemoteSwiftPackageReference "Charts" */,
 			);
 			productRefGroup = 297EA952294CDEEC0006668C /* Products */;
 			projectDirPath = "";
@@ -423,6 +425,22 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		295D31882970B48F0044483E /* XCRemoteSwiftPackageReference "AlertToast" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/elai950/AlertToast.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+		295D318B2970B4C00044483E /* XCRemoteSwiftPackageReference "Charts" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/danielgindi/Charts.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
+			};
+		};
 		297EA98B294CE1540006668C /* XCRemoteSwiftPackageReference "AlertToast" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/elai950/AlertToast.git";
@@ -442,14 +460,14 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		297EA98C294CE1540006668C /* AlertToast */ = {
+		295D31892970B48F0044483E /* AlertToast */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 297EA98B294CE1540006668C /* XCRemoteSwiftPackageReference "AlertToast" */;
+			package = 295D31882970B48F0044483E /* XCRemoteSwiftPackageReference "AlertToast" */;
 			productName = AlertToast;
 		};
-		297EA98F294CE1910006668C /* Charts */ = {
+		295D318C2970B4C00044483E /* Charts */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 297EA98E294CE1910006668C /* XCRemoteSwiftPackageReference "Charts" */;
+			package = 295D318B2970B4C00044483E /* XCRemoteSwiftPackageReference "Charts" */;
 			productName = Charts;
 		};
 /* End XCSwiftPackageProductDependency section */
