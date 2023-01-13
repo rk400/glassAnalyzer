@@ -218,6 +218,7 @@ struct FormularioView: View {
                             }.pickerStyle(SegmentedPickerStyle())
                         }
                     }
+                    #if GlassAnalyzer
                     Section(header: Text("Seleccionar resultado")){
                         Picker("Seleccionar resultado", selection: $resultado){
                             ForEach(resultados, id:\.self){
@@ -225,6 +226,7 @@ struct FormularioView: View {
                             }
                         }.pickerStyle(MenuPickerStyle())
                     }
+                    #endif
                     Section(header: Text("Descripción (opcional)")){
                         TextField("Describa el experimento...", text: $descripcion)
                     }
@@ -251,10 +253,11 @@ struct FormularioView: View {
                             .background(Color.init(red: 1, green: 0.48, blue: 0.48))
                             .cornerRadius(88)
                     }
-                    
+                   
                     Spacer().frame(width: 60)
                     Button(){
                         showResult.toggle()
+
                     } label: {
                         NavigationLink (isActive: $showResult){
                             ResultadoView(nombreCaso: nombreCaso.isEmpty ? "Caso sin nombre" : nombreCaso, RI: RI, Mg: Mg, Al: Al, K: K, Ca: Ca, Ba: Ba, estadoCaso: estadoCaso, resultado: resultado, descripcion: descripcion, usuario: $usuario ,sesionIniciada: $sesionIniciada, esNuevo: true, showResult: $showResult).environmentObject(vm).onDisappear(){ showResult = false}
@@ -306,8 +309,10 @@ struct FormularioView: View {
             AlertToast(type: .image("barium", Color.black), title: "Bario")
         }
     }
-    
+ 
 }
+
+
 
 extension Double {
     func redondear(numeroDeDecimales: Int) -> String {
