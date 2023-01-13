@@ -42,6 +42,7 @@ struct PerfilView: View {
                         .font(.custom("Inter-Regular", size: 20))
                     if(edicionUser) {
                         TextField("Nuevo nombre...", text: $usuario)
+                            .autocapitalization(UITextAutocapitalizationType.none)
                             .font(.custom("Inter-Regular", size: 20))
                     }else{
                         Text(usuario)
@@ -61,6 +62,8 @@ struct PerfilView: View {
                                     mostrarMensajeError(indexError: 1)
                                 }else if(usuarioExiste(usuarioaux: usuario)){
                                     mostrarMensajeError(indexError: 2)
+                                }else if(usuario.count < 4){
+                                    mostrarMensajeError(indexError: 6)
                                 }else {
                                     vm.modificarNombreUsuario(usuario: user, nombreUsuario: usuario)
                                     usuarioNo = usuario
@@ -91,6 +94,7 @@ struct PerfilView: View {
                         .frame(width: 16)
                     if(edicionMail) {
                         TextField("Nuevo correo...", text: $correo)
+                            .autocapitalization(UITextAutocapitalizationType.none)
                             .font(.custom("Inter-Regular", size: 20))
                     }else{
                         Text(correo)
@@ -182,6 +186,8 @@ struct PerfilView: View {
         mensajeError = "Las contraseñas no coinciden"
         case 5:
         mensajeError = "Escriba el correo correctamente"
+        case 6:
+        mensajeError = "La longitud del usuario minima es de 4 caracteres"
         default:
         mensajeError = ""
     }

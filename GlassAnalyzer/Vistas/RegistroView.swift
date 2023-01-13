@@ -63,7 +63,7 @@ struct RegistroView: View {
                             
                         }.frame(width: 300, alignment: .center)
                         
-                        Text("Indique su usuario aqui")
+                        Text("Indique su usuario aqui (Minimo 4 caracteres)")
                             .font(.custom("Inter", size: 10))
                             .frame(height: 10)
                             .offset(x: 30, y: -5)
@@ -128,7 +128,7 @@ struct RegistroView: View {
                         }.frame(width: 300, alignment: .center)
                             
                                         
-                        Text("Indique su contraseña aqui")
+                        Text("Indique su contraseña aqui (Minimo 6 caracteres)")
                             .font(.custom("Inter", size: 10))
                             .frame(height: 10)
                             .offset(x: 30, y: -5)
@@ -162,7 +162,7 @@ struct RegistroView: View {
                         
                     }.frame(width: 300, alignment: .center)
                     
-                    Text("Indique su contraseña aqui")
+                    Text("Indique su contraseña aqui (Minimo 6 caracteres)")
                         .font(.custom("Inter", size: 10))
                         .frame(height: 10)
                         .offset(x: 30, y: -5)
@@ -192,6 +192,10 @@ struct RegistroView: View {
                                mostrarMensajeError(indexError: 3)
                             }else if(cpassUsuario != passUsuario ){
                                 mostrarMensajeError(indexError: 4)
+                            }else if(nombreUsuario.count < 4){
+                                mostrarMensajeError(indexError: 6)
+                            }else if(passUsuario.count < 6){
+                                mostrarMensajeError(indexError: 7)
                             }else {
                                 vm.addUsuario(nombre: nombreUsuario, correo: correoUsuario, password: passUsuario)
                                 irRegistro.toggle()
@@ -261,6 +265,10 @@ struct RegistroView: View {
         mensajeError = "Las contraseñas no coinciden"
         case 5:
         mensajeError = "Escriba el correo correctamente"
+        case 6:
+        mensajeError = "La longitud del usuario minima es de 4 caracteres"
+        case 7:
+        mensajeError = "La longitud de la contraseña minima es de 6 caracteres"
         default:
         mensajeError = ""
     }
