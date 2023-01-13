@@ -31,6 +31,7 @@ struct FormularioView: View {
     @State var showingCa = false
     @State var showingBa = false
     @State var showResult = false
+    @Binding var seleccion : Int
     @State var cancelar:Bool = false
     let estados = ["ABIERTO", "CERRADO"]
     let resultados = ["Flotado edificio", "No flotado edificio", "Faro vehiculo", "Vajilla", "Flotado vehiculo", "No flotado vehiculo", "Recipiente"]
@@ -233,15 +234,15 @@ struct FormularioView: View {
                     Button(){
                         nombreCaso = ""
                         descripcion = ""
-                        resultado = ""
-                        estadoCaso = ""
+                        resultado = "Flotado edificio"
+                        estadoCaso = "ABIERTO"
                         Al = 0
                         Ba = 0
                         Ca = 0
                         K = 0
                         Mg = 0
                         RI = 0
-                        cancelar = true
+                        seleccion = 0
                     }label: {
                         Text("Cancelar")
                             .fontWeight(.bold)
@@ -249,8 +250,6 @@ struct FormularioView: View {
                             .foregroundColor(.white)
                             .background(Color.init(red: 1, green: 0.48, blue: 0.48))
                             .cornerRadius(88)
-                    }.fullScreenCover(isPresented: $cancelar) {
-                        MainView(sesionIniciada: $sesionIniciada, usuario: $usuario).environmentObject(vm)
                     }
                     
                     Spacer().frame(width: 60)
@@ -258,7 +257,7 @@ struct FormularioView: View {
                         showResult.toggle()
                     } label: {
                         NavigationLink (isActive: $showResult){
-                                    ResultadoView(nombreCaso: nombreCaso, RI: RI, Mg: Mg, Al: Al, K: K, Ca: Ca, Ba: Ba, estadoCaso: estadoCaso, resultado: resultado, descripcion: descripcion, usuario: $usuario ,sesionIniciada: $sesionIniciada, esNuevo: true, showResult: $showResult).environmentObject(vm)
+                            ResultadoView(nombreCaso: nombreCaso.isEmpty ? "Caso sin nombre" : nombreCaso, RI: RI, Mg: Mg, Al: Al, K: K, Ca: Ca, Ba: Ba, estadoCaso: estadoCaso, resultado: resultado, descripcion: descripcion, usuario: $usuario ,sesionIniciada: $sesionIniciada, esNuevo: true, showResult: $showResult).environmentObject(vm).onDisappear(){ showResult = false}
                         }label:{
                                     Text("Procesar\ndatos")
                                     .fontWeight(.bold)
@@ -273,6 +272,20 @@ struct FormularioView: View {
                 }
                 Spacer()
             }.background(Color.init(red: 0.95, green: 0.95, blue: 0.97, opacity: 1))
+                .onAppear(){
+                    nombreCaso = ""
+                    descripcion = ""
+                    resultado = "Flotado edificio"
+                    estadoCaso = "ABIERTO"
+                    Al = 0
+                    Ba = 0
+                    Ca = 0
+                    K = 0
+                    Mg = 0
+                    RI = 0
+                    showResult = false
+                }
+                
         }
         .toast(isPresenting: $showingRI) {
             AlertToast(type: .image("RI", Color.black), title: "índice de Refracción")

@@ -6,12 +6,15 @@
 //
 
 import SwiftUI
+import Combine
+
 
 struct MainView: View {
     @EnvironmentObject var vm: ViewModel
     @State var seleccion: Int = 0
     @Binding var sesionIniciada: Bool
     @Binding var usuario: Usuario
+
     var body: some View {
         TabView(selection: $seleccion){
             HistorialView(usuario: usuario, sesionIniciada: $sesionIniciada).environmentObject(vm)
@@ -20,7 +23,7 @@ struct MainView: View {
                     Text("Historial")
                 }
                 .tag(0)
-            FormularioView(usuario: $usuario, sesionIniciada: $sesionIniciada)
+            FormularioView(usuario: $usuario, sesionIniciada: $sesionIniciada, seleccion : $seleccion)
                 .tabItem{
                     Image(systemName: "list.bullet.indent")
                     Text("Formulario")
@@ -32,6 +35,7 @@ struct MainView: View {
                     Text("Perfil")
                 }
                 .tag(2)
-        }
+        }        
+        
     }
 }

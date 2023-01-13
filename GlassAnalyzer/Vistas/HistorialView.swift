@@ -78,27 +78,37 @@ struct HistorialView: View {
                     Toggle(isOn: $soloAbiertos){
                         Text("Mostrar solo los casos abiertos")
                     }
-                    if let ejecucionesActuales = usuario.usuarioejecucion?.allObjects as? [Ejecucion]{
-                        ForEach(ejecucionesActuales){ejecucion in
+                    if var ejecucionesActuales = usuario.usuarioejecucion?.allObjects as? [Ejecucion]{
+                        ForEach(ejecucionesActuales.sorted(){$0.fecha! > $1.fecha!}, id:\.self){ejecucion in
                             if (!soloAbiertos || (ejecucion.estado == "ABIERTO")) && (ejecucion.nombre!.contains(query) || query.isEmpty ) {
-                                Button(){
-                                    showResult.toggle()
+                                NavigationLink(destination: ResultadoView(nombreCaso: ejecucion.nombre!, RI: ejecucion.ri , Mg: ejecucion.mg, Al: ejecucion.al, K: ejecucion.k, Ca: ejecucion.ca, Ba: ejecucion.ba, estadoCaso: ejecucion.estado!, resultado: ejecucion.resultado!, descripcion: ejecucion.descripcion ?? "", usuario: $usuario ,sesionIniciada: $sesionIniciada, esNuevo: false, ejecucion: ejecucion, showResult: $showResult).environmentObject(vm)){
+                                    VistaEjecucion(ejecucionCurrent: ejecucion)
+                                    Image(systemName: "minus.circle")
+                                        .font(.headline)
+                                        .foregroundColor(.red)
+                                        .onTapGesture{
+                                            vm.deleteEjecucion(ejecucion: ejecucion)
+                                        }
+                                    
                                 }
-                                label:{
-                                NavigationLink(isActive: $showResult){
-                                    ResultadoView(nombreCaso: ejecucion.nombre!, RI: ejecucion.ri , Mg: ejecucion.mg, Al: ejecucion.al, K: ejecucion.k, Ca: ejecucion.ca, Ba: ejecucion.ba, estadoCaso: ejecucion.estado!, resultado: ejecucion.resultado!, descripcion: ejecucion.descripcion ?? "", usuario: $usuario ,sesionIniciada: $sesionIniciada, esNuevo: false, ejecucion: ejecucion, showResult: $showResult).environmentObject(vm)
-                                    }
-                                    label:{
-                                        VistaEjecucion(ejecucionCurrent: ejecucion)
-                                    }
-                                }
+                                   
+                                
                             }
+                      
                         }
+                            
+                        
+                          
+                        
+                        
+                         
+                     
+                        
+                        
                     }
-                    //.onDelete { indexSet in
-                    //amigoVM.datos.remove(atOffsets: indexSet)
+                    
                 }
-                //.onMove(perform: move)
+                            //.onMove(perform: move)
             }
             .navigationTitle("Historial")
 //                .navigationBarItems(
@@ -110,14 +120,5 @@ struct HistorialView: View {
        
             
     }
-    func buscarEjecucion() -> Void {
-        
-        for ejecucion in vm.ejecucionArray{
-            if ejecucion.ejecucionusuario == usuario{
-                ejecucionesActuales[contador] = ejecucion
-                contador+=1
-            }
-        }
-        contador = 0
-    }
 }
+

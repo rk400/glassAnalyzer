@@ -26,7 +26,7 @@ class ViewModel: ObservableObject {
         let fetchEjecucion = NSFetchRequest<Ejecucion>(entityName: "Ejecucion")
         do{
             self.usuarioArray = try gestorCoreData.contexto.fetch(fetchUsuario)
-            self.ejecucionArray = try gestorCoreData.contexto.fetch(fetchEjecucion).sorted(){$0.fecha! > $1.fecha!}
+            self.ejecucionArray = try gestorCoreData.contexto.fetch(fetchEjecucion).sorted(){$0.fecha! < $1.fecha!}
         }catch let error{
             print("Error al cargar los datos: \(error)") }
     }
@@ -65,6 +65,13 @@ class ViewModel: ObservableObject {
         nuevaEjecucion.ri = ri
         nuevaEjecucion.ejecucionusuario = usuario
         guardarDatos()
+    }
+    
+    func deleteEjecucion(indexSet: IndexSet){
+        for index in indexSet {
+            gestorCoreData.contexto.delete(ejecucionArray[index])
+        }
+        
     }
     
     func deleteEjecucion(ejecucion: Ejecucion){

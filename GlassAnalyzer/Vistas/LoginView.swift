@@ -113,6 +113,9 @@ struct LoginView: View {
                 .frame(width: 350, height: 400, alignment: .center)
                 .cornerRadius(30)
                 .offset(y: -30)
+                .onAppear(){
+                    vm.cargarDatos()
+                }
      
         
     }
