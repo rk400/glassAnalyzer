@@ -44,7 +44,7 @@ struct VistaEjecucion: View {
                 Text(ejecucionCurrent.nombre ?? "caso")
                     .font(.subheadline)
                     .fontWeight(.bold)
-                    .foregroundColor(ejecucionCurrent.estado == "CERRADO" ? Color("RojoLetras") : Color("AzulLetras"))
+                    .foregroundColor($ejecucionCurrent.estado.wrappedValue == "CERRADO" ? Color("RojoLetras") : Color("AzulLetras"))
                 Text(ejecucionCurrent.fecha!, style: .date)
                     .font(.caption2)
                     .fontWeight(.medium)
