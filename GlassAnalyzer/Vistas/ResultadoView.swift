@@ -60,12 +60,28 @@ struct ResultadoView: View {
     @State var esNuevo: Bool
     @State var ejecucion: Ejecucion = Ejecucion()
     @Binding var showResult: Bool
+    @State var showDescription = false
+
     var body: some View {
         VStack{
             VStack{
-                Text(nombreCaso)
-                    .padding(.bottom)
-                
+                HStack{
+                    Text(nombreCaso)
+                        .padding(.bottom)
+                    
+                    if (descripcion != "") {
+                        Button(){
+                            showDescription = true
+                        }label: {
+                            Image(systemName: "info.circle.fill")
+                                .resizable()
+                                .foregroundColor(Color.gray)
+                                .opacity(0.5)
+                                .frame(width: 15, height: 15, alignment: .center)
+                                .padding(.bottom)
+                        }
+                    }
+                }
                 
                 Image(resultado)
                     .resizable()
@@ -88,12 +104,9 @@ struct ResultadoView: View {
                     ejecucion.estado = estadoCaso
                     vm.guardarDatos()
                 }
-                        
                 .pickerStyle(SegmentedPickerStyle())
                     .padding()
                     .frame(width: 300, height: 50)
-                
-                   
                   
                 VStack{
                     Text("Stats")
@@ -124,6 +137,8 @@ struct ResultadoView: View {
                 .frame(width: 390, height: 550)
                 .offset(x: 0, y: 150)
         )
+        }.toast(isPresenting: $showDescription) {
+            AlertToast(type: .regular, title: "Descripción", subTitle: $descripcion.wrappedValue)
         }.onAppear(){
             if(esNuevo){
             #if GlassAnalyzerPlus
@@ -135,6 +150,7 @@ struct ResultadoView: View {
                 
             }
         }
+        
        
 }
 #if GlassAnalyzerPlus
