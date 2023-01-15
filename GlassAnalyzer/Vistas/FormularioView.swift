@@ -260,7 +260,7 @@ struct FormularioView: View {
 
                     } label: {
                         NavigationLink (isActive: $showResult){
-                            ResultadoView(nombreCaso: nombreCaso.isEmpty ? "Caso sin nombre" : nombreCaso, RI: RI, Mg: Mg, Al: Al, K: K, Ca: Ca, Ba: Ba, estadoCaso: estadoCaso, resultado: resultado, descripcion: descripcion, usuario: $usuario ,sesionIniciada: $sesionIniciada, esNuevo: true, showResult: $showResult).environmentObject(vm).onDisappear(){ showResult = false}
+                            ResultadoView(nombreCaso: nombreCaso.isEmpty ? "Caso sin nombre" : nombreCaso, RI: RI, Mg: Mg, Al: Al, K: K, Ca: Ca, Ba: Ba, estadoCaso: estadoCaso, resultado: resultado, descripcion: descripcion.isEmpty ? "Sin detalles añadidos" : descripcion, usuario: $usuario ,sesionIniciada: $sesionIniciada, esNuevo: true, showResult: $showResult).environmentObject(vm).onDisappear(){ showResult = false}
                         }label:{
                                     Text("Procesar\ndatos")
                                     .fontWeight(.bold)
